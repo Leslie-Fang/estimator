@@ -45,6 +45,7 @@ from tensorflow_estimator.python.estimator.canned import optimizers
 from tensorflow_estimator.python.estimator.head import head_utils
 from tensorflow_estimator.python.estimator.head import regression_head
 from tensorflow_estimator.python.estimator.mode_keys import ModeKeys
+from tensorflow.python.framework import dtypes
 
 # The default learning rate of 0.05 is a historical artifact of the initial
 # implementation, but seems a reasonable choice.
@@ -324,7 +325,8 @@ class _DNNModelV2(training.Model):
             units=num_hidden_units,
             activation=activation_fn,
             kernel_initializer=init_ops.glorot_uniform_initializer(),
-            name=hidden_shared_name)
+            name=hidden_shared_name,
+            dtype=dtypes.bfloat16)
         self._hidden_layer_scope_names.append(hidden_shared_name)
         self._hidden_layers.append(hidden_layer)
         if self._dropout is not None:
