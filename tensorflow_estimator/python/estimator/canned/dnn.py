@@ -317,6 +317,13 @@ class _DNNModelV2(training.Model):
     self._dropout_layers = []
     self._batch_norm_layers = []
     self._hidden_layer_scope_names = []
+
+    # def custom_dtype_getter(getter, name, shape=None, dtype=dtypes.float32, *args, **kwargs):
+    #     var = getter(name, shape, dtypes.float32, *args, **kwargs)
+    #     print("---try another way----------")
+    #     return var
+    #     #return tf.cast(var, dtype=dtypes.bfloat16, name=name + '_cast')
+
     for layer_id, num_hidden_units in enumerate(hidden_units):
       with ops.name_scope('hiddenlayer_%d' % layer_id) as hidden_layer_scope:
         # Get scope name without the trailing slash.
@@ -325,8 +332,8 @@ class _DNNModelV2(training.Model):
             units=num_hidden_units,
             activation=activation_fn,
             kernel_initializer=init_ops.glorot_uniform_initializer(),
-            name=hidden_shared_name,
-            dtype=dtypes.bfloat16)
+            name=hidden_shared_name)
+            #dtype=dtypes.bfloat16)
         self._hidden_layer_scope_names.append(hidden_shared_name)
         self._hidden_layers.append(hidden_layer)
         if self._dropout is not None:

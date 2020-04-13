@@ -42,6 +42,8 @@ from tensorflow_estimator.python.estimator.canned import optimizers
 from tensorflow_estimator.python.estimator.head import head_utils
 from tensorflow_estimator.python.estimator.head import regression_head
 from tensorflow_estimator.python.estimator.mode_keys import ModeKeys
+from tensorflow.python.framework import dtypes
+from tensorflow.python.ops import math_ops
 
 # The default learning rates are a historical artifact of the initial
 # implementation.
@@ -200,7 +202,7 @@ def _dnn_linear_combined_model_fn_v2(
 
   # Combine logits and build full model.
   if dnn_logits is not None and linear_logits is not None:
-    logits = dnn_logits + linear_logits
+    logits = math_ops.cast(dnn_logits, dtype=dtypes.float32) + linear_logits
   elif dnn_logits is not None:
     logits = dnn_logits
   else:
