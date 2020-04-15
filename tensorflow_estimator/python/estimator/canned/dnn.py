@@ -332,7 +332,8 @@ class _DNNModelV2(training.Model):
             units=num_hidden_units,
             activation=activation_fn,
             kernel_initializer=init_ops.glorot_uniform_initializer(),
-            name=hidden_shared_name)
+            name=hidden_shared_name,
+            autocast=False)
             #dtype=dtypes.bfloat16)
         self._hidden_layer_scope_names.append(hidden_shared_name)
         self._hidden_layers.append(hidden_layer)
